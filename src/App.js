@@ -11,7 +11,7 @@ class App extends React.Component {
     constructor() {
       super()
       this.state = {
-        list: [{name: "hello world", id: 99, complete: true}, {name: "hello world", id: 99, complete: true}],
+        list: [],
       status: {total: 0, done: 0},
       newItem: "",
       idNumber: 0,
@@ -23,15 +23,16 @@ class App extends React.Component {
   }
 
   newItem = (e) => {
-    console.log(this.state.newItem)
-
     e.preventDefault()
-    let newNumber = this.state.idNumber += 1
-    // this.setState({newItem: "This is on state now."})
-    this.setState({...this.state, id: newNumber, list: [...this.state.list, {name: this.state.newItem, id: newNumber, complete: false }], idNumber: newNumber, newItem: ""})
+    if(this.state.newItem !== "") {
+      let newItemTotal = this.state.status.total += 1
+      let newNumber = this.state.idNumber += 1
+      this.setState({...this.state, id: newNumber, list: [...this.state.list, {name: this.state.newItem, id: newNumber, complete: false }], idNumber: newNumber, newItem: "", status: {...this.state.status, total: newItemTotal}})
+    }
   }
 
   crossOutItem = (index) => {
+    // console.log("completed length", completedCount, "total length", this.state.list.length)
     this.setState({list: this.state.list.map((item) => {
       if(index === item.id) {
         return {...item, complete: item.complete === false ? true : false}
@@ -39,7 +40,6 @@ class App extends React.Component {
         return item;
       }
     })})
-
   }
 
 
@@ -50,6 +50,7 @@ class App extends React.Component {
         <input onChange={this.handleChange} value={this.state.newItem}>
         </input>
         <button onClick={this.newItem}>Add</button>
+        <p>{`${this.state.list.filter(item => item.complete).length} done out of ${this.state.list.length} tasks`}</p>
         <div>
           <ul>
           {this.state.list.map(listItem => {
