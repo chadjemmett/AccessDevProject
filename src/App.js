@@ -10,9 +10,8 @@ const handleChange = () => {
 class App extends React.Component {
     constructor() {
       super()
-
       this.state = {
-      list: [],
+        list: [{name: "hello world", id: 99, complete: false}],
       status: {total: 0, done: 0},
       newItem: "",
       idNumber: 0,
@@ -20,14 +19,16 @@ class App extends React.Component {
   }
 
   handleChange = (e) => {
-    this.setState({...this.state, newItem: e.target.value})
+    this.setState({newItem: e.target.value})
   }
 
   newItem = (e) => {
-    // e.preventDefault()
+    console.log(this.state.newItem)
+
+    e.preventDefault()
     let newNumber = this.state.idNumber += 1
-    this.setState({list: [...this.state.list, {itemName: this.state.newItem, id: newNumber, completed: false}]})
-    console.log(this.state.list)
+    // this.setState({newItem: "This is on state now."})
+    this.setState({...this.state, id: newNumber, list: [...this.state.list, {name: this.state.newItem, id: newNumber, complete: false }], idNumber: newNumber, newItem: ""})
   }
 
 
@@ -35,9 +36,16 @@ class App extends React.Component {
     return (
       <div className="App">
         <h1>Todo list</h1>
-        <input onChange={this.handleChange}>
+        <input onChange={this.handleChange} value={this.state.newItem}>
         </input>
         <button onClick={this.newItem}>Add</button>
+        <div>
+          <ul>
+          {this.state.list.map(listItem => {
+                                             return(<li>{listItem.name}</li>)
+                                           })}
+          </ul>
+        </div>
       </div>
     );
   }
