@@ -11,7 +11,7 @@ class App extends React.Component {
     constructor() {
       super()
       this.state = {
-        list: [{name: "hello world", id: 99, complete: false}],
+        list: [{name: "hello world", id: 99, complete: true}, {name: "hello world", id: 99, complete: true}],
       status: {total: 0, done: 0},
       newItem: "",
       idNumber: 0,
@@ -31,6 +31,17 @@ class App extends React.Component {
     this.setState({...this.state, id: newNumber, list: [...this.state.list, {name: this.state.newItem, id: newNumber, complete: false }], idNumber: newNumber, newItem: ""})
   }
 
+  crossOutItem = (index) => {
+    this.setState({list: this.state.list.map((item) => {
+      if(index === item.id) {
+        return {...item, complete: item.complete === false ? true : false}
+      } else {
+        return item;
+      }
+    })})
+
+  }
+
 
   render() {
     return (
@@ -42,10 +53,12 @@ class App extends React.Component {
         <div>
           <ul>
           {this.state.list.map(listItem => {
-                                             return(<li>{listItem.name}</li>)
-                                           })}
+              return(<li className={listItem.complete ? "done" : ""} onClick={() => this.crossOutItem(listItem.id)}>{listItem.name}</li>)
+          })}
           </ul>
         </div>
+        <style>
+        </style>
       </div>
     );
   }
