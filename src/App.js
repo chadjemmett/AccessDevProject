@@ -51,7 +51,7 @@ class App extends React.Component {
         </input>
         <button onClick={this.newItem}>Add</button>
         <p>{`${this.state.list.filter(item => item.complete).length} done out of ${this.state.list.length} tasks`}</p>
-        <div>
+        <div className="todo-div">
           <ul>
           {this.state.list.map(listItem => {
               return(<li className={listItem.complete ? "done" : ""} onClick={() => this.crossOutItem(listItem.id)}>{listItem.name}</li>)

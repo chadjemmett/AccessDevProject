@@ -27,6 +27,19 @@
 .done {
   text-decoration: line-through;
 }
+
+.todo-div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+li {
+  width: 0;
+}
+
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
